@@ -35,14 +35,14 @@ jobs:
             echo "runner=npx --no-install" >> $GITHUB_OUTPUT
             exit 0
           else
-            echo "Unable to determine packager manager"
+            echo "Unable to determine package manager"
             exit 1
           fi
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "18" # Recommended for Next.js 13+ 
+          node-version: "18" # Updated to Node.js 18
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
       - name: Setup Pages
@@ -64,9 +64,6 @@ jobs:
 
       - name: Build with Next.js
         run: NEXT_NO_TURBOPACK=1 ${{ steps.detect-package-manager.outputs.runner }} next build
-
-      - name: Static HTML export with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next export
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
