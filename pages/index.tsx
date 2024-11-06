@@ -21,7 +21,7 @@ export default function Home() {
             loading="lazy"
             width="149"
             height="149"
-            src="./forkme_left_green_007200.png"
+            src="/forkme_left_green_007200.png"
             className="attachment-full size-full"
             alt="Fork me on GitHub"
             data-recalc-dims="1"
@@ -31,7 +31,7 @@ export default function Home() {
       <div className={styles.header}>
         <Image
           priority
-          src="./james-orr-38CyKJ1hkQc-unsplash.jpg"
+          src="/james-orr-38CyKJ1hkQc-unsplash.jpg"
           alt="Multiple legos of the same type"
           width="640"
           height="420"
