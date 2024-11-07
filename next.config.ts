@@ -1,11 +1,14 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: 'export',        // Enables static HTML export
-  distDir: 'out',          // Specifies build output directory
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  distDir: 'out',
   images: {
-    unoptimized: true,     // Necessary for GitHub Pages
+    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './src/utils/imageLoader.ts',
   },
-};
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
+}
 
-export default nextConfig;
+module.exports = nextConfig
