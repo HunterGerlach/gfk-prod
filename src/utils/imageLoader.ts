@@ -1,4 +1,10 @@
-export default function imageLoader({ src, width, quality }) {
+interface ImageLoaderProps {
+  src: string;
+  width?: number;  // Make width optional since we're not using it
+  quality?: number; // Make quality optional since we're not using it
+}
+
+export default function imageLoader({ src }: ImageLoaderProps): string {
   // If the source is a remote URL, return it directly
   if (src.startsWith('http')) {
     return src
