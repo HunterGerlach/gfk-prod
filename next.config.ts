@@ -1,6 +1,12 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true
-}
+import type { NextConfig } from "next";
 
-module.exports = nextConfig
+const nextConfig: NextConfig = {
+  output: 'export',          // Enables static HTML export
+  distDir: 'out',            // Outputs static files to `./out` directory
+  trailingSlash: true,       // Ensures URLs end with a trailing slash for relative paths
+  images: {
+    unoptimized: true,       // Disable image optimization for static sites
+  },
+};
+
+export default nextConfig;
