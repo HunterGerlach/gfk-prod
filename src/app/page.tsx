@@ -57,7 +57,7 @@ export default function Home() {
       </header>
 
       {/* Spacer to prevent content from being hidden behind the fixed header */}
-      <div className="h-48"></div>
+      <div className="h-0"></div>
 
       <main className="p-4 flex-grow">
         <div className="columns-2 sm:columns-3 lg:columns-4 gap-4">
