@@ -1,58 +1,55 @@
 name: Publish to another (Prod) repository
 
-#on:
-#  pull_request:
-#    types:
-#      - closed
-#
-#jobs:
-#  if_merged:
-#    if: github.event.pull_request.merged == true
-#    runs-on: ubuntu-latest
-#    steps:
-#    - run: |
-#        echo The PR was merged
-#
-
 on:
   push:
-# Pattern matched against refs/tags
     tags:        
-      - '**' # Push events to every tag including hierarchical tags like v1.0/beta
+      - '**' # Triggers on all tags
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: creates output directory
-        run:  mkdir output   # some command from your repository that creates
-      - name: use rsync to selectively copy files
-        run:  rsync -a --exclude '.git' --exclude 'output' . output # output to "source-directory" ("output" in the example)
-      - name: show the repo files now    
-        run:  ls -la output
-      - name: Pushes to another repository
+      - name: Checkout
+        uses: actions/checkout@v4  # Updated to latest version
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4  # Updated to Node setup version
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build with Next.js for production
+        run: |
+          echo "Building with base path for production"
+          NEXT_PUBLIC_BASE_PATH=/gfk-prod npm run build
+
+      - name: Check build output
+        run: |
+          if [ ! -d "out" ]; then
+            echo "Error: 'out' directory not found"
+            echo "Current directory contents:"
+            ls -la
+            exit 1
+          fi
+          
+      - name: Show build files in output directory   
+        run: ls -la out
+
+      - name: Push build artifacts to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: 'output'
+          source-directory: 'out'  # Directory containing build artifacts
           destination-github-username: 'HunterGerlach'
-          destination-repository-name: 'multi-stage-deployment-example-nextjs-github-pages-production'
+          destination-repository-name: 'gfk-prod'
           user-email: hunter@huntergerlach.com
           target-branch: main
-
-# jobs:
-#   publish:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#         with:
-#           repository: HunterGerlach/nextjs-github-pages-multi-envs-prod
-#           path: ./
-#           token: ${{ secrets.REPO_TOKEN }}
-
-#       - uses: actions/upload-artifact@v2
-#         with:
-#           name: root
-#           path: ./
-#           token: ${{ secrets.REPO_TOKEN }}
