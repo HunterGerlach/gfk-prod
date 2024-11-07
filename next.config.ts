@@ -6,9 +6,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,     // Necessary for GitHub Pages
   },
-  experimental: {
-    appDir: true,          // Optional: remove if not using the app directory feature
-  },
 };
 
 export default nextConfig;
