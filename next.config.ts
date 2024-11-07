@@ -1,14 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',  
-  distDir: 'out',    
+  output: 'export',        // Enables static HTML export
+  distDir: 'out',          // Specifies build output directory
   images: {
-    unoptimized: true,
+    unoptimized: true,     // Necessary for GitHub Pages
+  },
+  experimental: {
+    appDir: true,          // Optional: remove if not using the app directory feature
   },
 };
-
-// Debugging to confirm config is applied
-console.log("Next.js Config: ", nextConfig);
 
 export default nextConfig;
