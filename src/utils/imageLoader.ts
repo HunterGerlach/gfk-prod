@@ -1,16 +1,21 @@
 interface ImageLoaderProps {
   src: string;
-  width?: number;  // Make width optional since we're not using it
-  quality?: number; // Make quality optional since we're not using it
+  width?: number;
+  quality?: number;
 }
 
 export default function imageLoader({ src }: ImageLoaderProps): string {
-  // If the source is a remote URL, return it directly
+  // If the source is already a full URL, return it as-is
   if (src.startsWith('http')) {
-    return src
+    return src;
   }
+
+  // Remove leading slash if it exists to avoid double slashes
+  const cleanSrc = src.startsWith('/') ? src.slice(1) : src;
   
-  // For local images, prepend the base path if it exists
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-  return `${basePath}${src}`
+  // Get the base path from env or default to empty string
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  
+  // Combine base path and source path
+  return `${basePath}/${cleanSrc}`;
 }
